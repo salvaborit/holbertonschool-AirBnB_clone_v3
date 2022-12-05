@@ -71,16 +71,17 @@ class FileStorage:
 
     def get(self, cls, id):
         """ retrieve an object from storage """
-        from models import storage
-        if eval(cls):
-            for obj in storage.all(cls).values():
-                if obj.id == id:
-                    return obj
+        if cls and id:
+            try:
+                for obj in self.all(cls).values():
+                    if obj.id == id:
+                        return obj
+            except:
+                return None
         else:
             return None
 
     def count(self, cls=None):
         """ count objects from storage """
-        from models import storage
 
         return len(storage.all(cls)) if cls else len(storage.all())
