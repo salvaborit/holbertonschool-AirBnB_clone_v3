@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-Flask app module
-"""
+""" Flask app module """
 from flask import Flask
 from models import storage
 from os import getenv
