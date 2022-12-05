@@ -73,7 +73,7 @@ class FileStorage:
         """ retrieve an object from storage """
         from models import storage
         if eval(cls):
-            for obj in storage.all(cls):
+            for obj in storage.all(cls).values():
                 if obj.id == id:
                     return obj
         else:
