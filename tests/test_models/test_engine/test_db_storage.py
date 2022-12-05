@@ -101,5 +101,5 @@ class TestDBStorageX(unittest.TestCase):
 
     def test_count(self):
         """ tests count method on dbstorage """
-        # self.assertGreaterEqual(storage.count(), 0)
+        self.assertGreaterEqual(storage.count(), 0)
         self.assertGreaterEqual(storage.count('BaseModel'), 0)
