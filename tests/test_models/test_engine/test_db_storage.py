@@ -14,6 +14,7 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+from models import storage
 import json
 import os
 import pep8
@@ -86,3 +87,19 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+
+class TestDBStorageX(unittest.TestCase):
+    """ My class for testing dbstorage class """
+
+    def test_get(self):
+        """ tests get method on dbstorage """
+        self.assertEqual(storage.get(BaseModel, 1234), None)
+        self.assertEqual(storage.get(None, 1234), None)
+        self.assertEqual(storage.get(BaseModel, None), None)
+        self.assertEqual(storage.get(None, None), None)
+
+    def test_count(self):
+        """ tests count method on dbstorage """
+        self.assertEqual(storage.count(), 0)
+        self.assertEqual(storage.count('BaseModel'), 0)
