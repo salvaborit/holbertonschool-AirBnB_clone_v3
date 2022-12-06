@@ -9,8 +9,7 @@ from api.v1.views import app_views
 def get_all_states():
     """ retrieves all states """
     from models import storage
-    all_states = storage.__session.query('State').all()
     states_return = []
-    for state in all_states:
+    for state in storage.all('State').values():
         states_return.append(state.to_dict())
     return states_return
