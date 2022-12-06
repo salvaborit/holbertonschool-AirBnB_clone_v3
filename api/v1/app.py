@@ -20,7 +20,7 @@ def teardown_db(exception):
 
 
 @app.errorhandler(404)
-def handler_404(e):
+def handler_404(error):
     """ 404 not found error handler """
     return dict(error='Not found'), 404
 
