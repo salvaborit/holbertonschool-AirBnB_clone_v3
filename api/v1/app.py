@@ -18,6 +18,12 @@ def teardown_db(exception):
     """ closes storage on teardown """
     storage.close()
 
+@app.errorhandler(404)
+def handler_404(error):
+    """ 404 not found error handler """
+    return dict(error='Not found')
+
+
 
 if __name__ == '__main__':
     app.run(host=getenv('HBNB_API_HOST', '0.0.0.0'),
