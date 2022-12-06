@@ -15,9 +15,12 @@ app.url_map.strict_slashes = False
 
 @app.teardown_appcontext
 def teardown_db(exception):
+    """ closes storage on teardown """
     storage.close()
 
 
 if __name__ == '__main__':
     app.run(host=getenv('HBNB_API_HOST', '0.0.0.0'),
-            port=int(getenv('HBNB_API_PORT', '5000')), threaded=True)
+            port=getenv('HBNB_API_PORT', '5000'),
+            threaded=True,
+            debug=True)
