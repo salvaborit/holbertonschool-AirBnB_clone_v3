@@ -18,11 +18,11 @@ def teardown_db(exception):
     """ closes storage on teardown """
     storage.close()
 
+
 @app.errorhandler(404)
 def handler_404(e):
     """ 404 not found error handler """
-    return dict(error='Not found')
-
+    return dict(error='Not found'), 404
 
 
 if __name__ == '__main__':
