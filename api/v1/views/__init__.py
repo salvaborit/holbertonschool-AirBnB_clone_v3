@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Module __init__
+Module __init__ of views package
 """
 from flask import Blueprint
 
