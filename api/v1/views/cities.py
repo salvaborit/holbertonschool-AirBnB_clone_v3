@@ -26,12 +26,7 @@ def states_cities(state_id):
 @app_views.route('/cities/<city_id>', strict_slashes=False, methods=['GET', 'DELETE'])
 def get_city(city_id):
     """ retrieves city by id """
-    city = storage.get(City, city_id)
-    if city is None:
-        abort(404)
-    elif request.method == 'GET':
-        return jsonify(city.to_dict())
-    elif request.method == 'DELETE':
-        storage.delete(city)
-        storage.save()
-        return jsonify({}), 200
+    for city in storage.all('City').values():
+        if city.id == city_id:
+            return jsonify(city.to_dict())
+    abort(404)
