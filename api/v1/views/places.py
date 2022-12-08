@@ -51,17 +51,17 @@ def post_place(city_id):
         abort(400, 'Not a JSON')
     elif 'user_id' not in req.keys():
         abort(400, 'Missing user_id')
-    user = storage.get(User, req['user_id'])
-    if user is None:
-        abort(404)
-    elif 'name' not in req.keys():
-        abort(400, 'Missing name')
     else:
-        req['city_id'] == city_id
-        new_place = Place(**req)
-        storage.new(new_place)
-        storage.save()
-        return jsonify(new_place.to_dict()), 201
+        user = storage.get(User, req['user_id'])
+        if user is None:
+            abort(404)
+    if 'name' not in req.keys():
+        abort(400, 'Missing name')
+    req['city_id'] == city_id
+    new_place = Place(**req)
+    storage.new(new_place)
+    storage.save()
+    return jsonify(new_place.to_dict()), 201
 
 
 @app_views.route('/places/<place_id>', strict_slashes=False, methods=['PUT'])
@@ -79,4 +79,5 @@ def put_place(place_id):
             pass
         else:
             setattr(place, key, val)
+    storage.save()
     return jsonify(place.to_dict()), 200
