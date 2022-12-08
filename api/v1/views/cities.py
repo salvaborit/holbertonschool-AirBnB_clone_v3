@@ -12,13 +12,15 @@ from models.state import State
 @app_views.route('/states/<state_id>/cities', strict_slashes=False, methods=['GET'])
 def states_cities(state_id):
     """ retrieves all cities linked to a state """
-    if storage.get(State, state_id) is None:
-        abort(404)
-    cities = []
-    for city in storage.all('City').values():
-        if city.state_id == state_id:
-            cities.append(city.to_dict())
-    return jsonify(cities)
+    for state in storage.all('State').values():
+        if state.id == state_id:
+            cities = []
+            if state.cities:
+                for city in storage.all('City').values():
+                    if city.state_id == state_id:
+                        cities.append(city.to_dict())
+            return jsonify(cities)
+    abort(404)
 
 
 @app_views.route('/cities/<city_id>', strict_slashes=False, methods=['GET', 'DELETE'])
