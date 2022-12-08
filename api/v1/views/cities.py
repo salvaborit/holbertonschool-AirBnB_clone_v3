@@ -9,7 +9,8 @@ from models.city import City
 from models.state import State
 
 
-@app_views.route('/states/<state_id>/cities', strict_slashes=False, methods=['GET'])
+@app_views.route(
+    '/states/<state_id>/cities', strict_slashes=False, methods=['GET'])
 def states_cities(state_id):
     """ retrieves all cities linked to a state """
     if storage.get(State, state_id) is None:
@@ -21,7 +22,8 @@ def states_cities(state_id):
     return jsonify(cities)
 
 
-@app_views.route('/cities/<city_id>', strict_slashes=False, methods=['GET', 'DELETE'])
+@app_views.route(
+    '/cities/<city_id>', strict_slashes=False, methods=['GET', 'DELETE'])
 def get_city(city_id):
     """ retrieves city by id """
     city = storage.get(City, city_id)
@@ -35,7 +37,8 @@ def get_city(city_id):
         return jsonify({}), 200
 
 
-@app_views.route('/states/<state_id>/cities', strict_slashes=False, methods=['POST'])
+@app_views.route(
+    '/states/<state_id>/cities', strict_slashes=False, methods=['POST'])
 def post_city(state_id):
     """ posts a city obj """
     req = request.get_json(silent=True)
@@ -46,6 +49,7 @@ def post_city(state_id):
     elif storage.get(State, state_id) is None:
         abort(404)
     else:
+        req['state_id'] = state_id
         new_city = City(**req)
         storage.new(new_city)
         storage.save()
