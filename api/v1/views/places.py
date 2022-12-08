@@ -46,17 +46,19 @@ def post_place(city_id):
     req = request.get_json(silent=True)
     if req is None:
         abort(400, 'Not a JSON')
-    if 'user_id' not in req.keys():
+    elif 'user_id' not in req.keys():
         abort(400, 'Missing user_id')
     user = storage.get(User, req['user_id'])
     if user is None:
         abort(404)
-    if 'name' not in req.keys():
+    elif 'name' not in req.keys():
         abort(400, 'Missing name')
-    new_place = Place(**req)
-    storage.new(new_place)
-    storage.save()
-    return jsonify(new_place.to_dict()), 201
+    else:
+        req['city_id'] == city_id
+        new_place = Place(**req)
+        storage.new(new_place)
+        storage.save()
+        return jsonify(new_place.to_dict()), 201
 
 
 @app_views.route('/places/<place_id>', strict_slashes=False, methods=['PUT'])
