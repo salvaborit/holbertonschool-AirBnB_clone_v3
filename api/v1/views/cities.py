@@ -6,12 +6,13 @@ from api.v1.views import app_views
 from flask import abort, request, jsonify
 from models import storage
 from models.city import City
+from models.state import State
 
 
 @app_views.route('/states/<state_id>/cities', strict_slashes=False, methods=['GET'])
 def states_cities(state_id):
     """ retrieves all cities linked to a state """
-    if storage.get(state_id) is None:
+    if storage.get(State, state_id) is None:
         abort(404)
     cities = []
     for city in storage.all('City').values():
