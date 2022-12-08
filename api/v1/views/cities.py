@@ -9,24 +9,27 @@ from models.city import City
 from models.state import State
 
 
-@app_views.route('/states/<state_id>/cities', strict_slashes=False, methods=['GET'])
-def states_cities(state_id):
-    """ retrieves all cities linked to a state """
-    for state in storage.all('State').values():
-        if state.id == state_id:
-            cities = []
-            if state.cities:
-                for city in storage.all('City').values():
-                    if city.state_id == state_id:
-                        cities.append(city.to_dict())
-            return jsonify(cities)
+@app_views.route('/states/<state_id>/cities',
+                 strict_slashes=False, methods=['GET'])
+def cities_by_City(state_id):
+    """List all cities in the City"""
+    for i in storage.all("State").values():
+        if i.id == state_id:
+            my_state = storage.all()["State" + '.' + state_id]
+            my_list = []
+            if my_state.cities:
+                for i in storage.all("City").values():
+                    if i.state_id == state_id:
+                        my_list.append(i.to_dict())
+            return jsonify(my_list)
     abort(404)
 
 
-@app_views.route('/cities/<city_id>', strict_slashes=False, methods=['GET', 'DELETE'])
-def get_city(city_id):
-    """ retrieves city by id """
-    for city in storage.all('City').values():
-        if city.id == city_id:
-            return jsonify(city.to_dict())
+@app_views.route('/cities/<city_id>', strict_slashes=False, methods=['GET'])
+def city_by_id(city_id):
+    """Return city by id"""
+    for i in storage.all("City").values():
+        if i.id == city_id:
+            my_city = storage.all()["City" + '.' + city_id]
+            return jsonify(my_city.to_dict())
     abort(404)
