@@ -16,7 +16,9 @@ def get_users():
         users.append(user.to_dict())
     return jsonify(users)
 
-@app_views.route('/users/<user_id>', strict_slashes=False, methods=['GET', 'DELETE'])
+
+@app_views.route(
+    '/users/<user_id>', strict_slashes=False, methods=['GET', 'DELETE'])
 def get_user_by_id(user_id):
     """ retrieves user by id """
     user = storage.get(User, user_id)
@@ -64,14 +66,3 @@ def put_user(user_id):
             setattr(user, key, val)
     storage.save()
     return jsonify(user.to_dict()), 200
-
-
-
-
-
-
-
-
-    req = request.get_json(silent=True)
-    if req is None:
-        abort()
