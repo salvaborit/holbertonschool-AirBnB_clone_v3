@@ -3,7 +3,7 @@
 Module state
 """
 from api.v1.views import app_views
-from flask import abort, request
+from flask import abort, request, jsonify
 from models import storage
 from models.state import State
 
@@ -14,7 +14,7 @@ def get_all_states():
     states_return = []
     for state in storage.all('State').values():
         states_return.append(state.to_dict())
-    return states_return
+    return jsonify(states_return)
 
 
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['GET', 'DELETE'])
@@ -23,11 +23,11 @@ def get_state_by_id(state_id):
     for state in storage.all('State').values():
         if state.id == state_id:
             if request.method == 'GET':
-                return state.to_dict()
+                return jsonify(state.to_dict())
             elif request.method == 'DELETE':
                 storage.delete(state)
                 storage.save()
-                return {}, 200
+                return jsonify({}), 200
     abort(404)
 
 @app_views.route('/states', strict_slashes=False, methods=['POST'])
@@ -42,7 +42,7 @@ def post_state():
         new_state = State(**http_request)
         storage.new(new_state)
         storage.save()
-        return new_state.to_dict(), 201
+        return jsonify(new_state.to_dict()), 201
 
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['PUT'])
 def put_state(state_id):
@@ -59,4 +59,4 @@ def put_state(state_id):
         else:
             setattr(state, key, val)
     storage.save()
-    return state.to_dict(), 200
+    return jsonify(state.to_dict()), 200
