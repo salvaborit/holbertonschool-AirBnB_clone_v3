@@ -43,6 +43,8 @@ def post_city(state_id):
         abort(400, 'Not a JSON')
     elif 'name' not in req.keys():
         abort(400, 'Missing name')
+    elif storage.get(State, state_id) is None:
+        abort(404)
     else:
         new_city = City(**req)
         storage.new(new_city)
