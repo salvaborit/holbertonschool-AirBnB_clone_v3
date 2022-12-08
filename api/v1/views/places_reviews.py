@@ -39,7 +39,8 @@ def get_review(review_id):
         return jsonify({}), 200
 
 
-@app_views.route('/places/<place_id>/reviews', strict_slashes=False, methods=['POST'])
+@app_views.route(
+    '/places/<place_id>/reviews', strict_slashes=False, methods=['POST'])
 def post_review(place_id):
     """ posts a review """
     place = storage.get(Place, place_id)
@@ -50,7 +51,7 @@ def post_review(place_id):
         abort(400, 'Not a JSON')
     if 'user_id' not in req.keys():
         abort(400, 'Missing user_id')
-    user = storage.get(User)
+    user = storage.get(User, req['user_id'])
     if user is None:
         abort(404)
     if 'text' not in req.keys():
