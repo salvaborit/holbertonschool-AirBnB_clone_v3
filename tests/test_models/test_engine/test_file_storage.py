@@ -121,10 +121,10 @@ class TestFileStorageX(unittest.TestCase):
 
     def test_get(self):
         """ tests get method on dbstorage """
-        self.assertTrue(storage.get(BaseModel, 1234) == None)
-        self.assertTrue(storage.get(None, 1234) == None)
-        self.assertTrue(storage.get(BaseModel, None) == None)
-        self.assertTrue(storage.get(None, None) == None)
+        self.assertTrue(storage.get(BaseModel, 1234) is None)
+        self.assertTrue(storage.get(None, 1234) is None)
+        self.assertTrue(storage.get(BaseModel, None) is None)
+        self.assertTrue(storage.get(None, None) is None)
 
     def test_count(self):
         """ tests count method on dbstorage """
