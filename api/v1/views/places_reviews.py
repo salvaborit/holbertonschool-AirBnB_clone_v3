@@ -51,11 +51,11 @@ def post_review(place_id):
         abort(400, 'Not a JSON')
     if 'user_id' not in req.keys():
         abort(400, 'Missing user_id')
+    if 'text' not in req.keys():
+        abort(400, 'Missing text')
     user = storage.get(User, req['user_id'])
     if user is None:
         abort(404)
-    if 'text' not in req.keys():
-        abort(400, 'Missing text')
     req['place_id'] == place_id
     new_review = Review(**req)
     storage.new(new_review)

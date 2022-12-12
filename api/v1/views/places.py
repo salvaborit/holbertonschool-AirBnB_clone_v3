@@ -43,25 +43,28 @@ def get_place(place_id):
     '/cities/<city_id>/places', strict_slashes=False, methods=['POST'])
 def post_place(city_id):
     """ posts place """
-    city = storage.get(City, city_id)
-    if city is None:
-        abort(404)
-    req = request.get_json(silent=True)
-    if req is None:
-        abort(400, 'Not a JSON')
-    elif 'user_id' not in req.keys():
-        abort(400, 'Missing user_id')
-    else:
-        user = storage.get(User, req['user_id'])
-        if user is None:
-            abort(404)
-    if 'name' not in req.keys():
-        abort(400, 'Missing name')
-    req['city_id'] == city_id
-    new_place = Place(**req)
-    storage.new(new_place)
-    storage.save()
-    return jsonify(new_place.to_dict()), 201
+    for i in storage.all("City").values():
+        if i.id == city_id:
+            npl = request.get_json(silent=True)
+            if npl is None:
+                abort(400, 'Not a JSON')
+            if 'user_id' not in npl.keys():
+                abort(400, 'Missing user_id')
+            if 'name' not in npl.keys():
+                abort(400, 'Missing name')
+            tmp_list = []
+            for i in storage.all("User").values():
+                tmp_list.append(i.id)
+            for key, value in npl.items():
+                if key == 'user_id':
+                    if value not in tmp_list:
+                        abort(404)
+            npl["city_id"] = city_id
+            my_place = Place(**npl)
+            storage.new(my_place)
+            storage.save()
+            return jsonify(my_place.to_dict()), 201
+    abort(404)
 
 
 @app_views.route('/places/<place_id>', strict_slashes=False, methods=['PUT'])
