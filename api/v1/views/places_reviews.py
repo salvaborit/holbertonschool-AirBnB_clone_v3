@@ -43,24 +43,28 @@ def get_review(review_id):
     '/places/<place_id>/reviews', strict_slashes=False, methods=['POST'])
 def post_review(place_id):
     """ posts a review """
-    place = storage.get(Place, place_id)
-    if place is None:
-        abort(404)
-    req = request.get_json(silent=True)
-    if req is None:
-        abort(400, 'Not a JSON')
-    if 'user_id' not in req.keys():
-        abort(400, 'Missing user_id')
-    if 'text' not in req.keys():
-        abort(400, 'Missing text')
-    user = storage.get(User, req['user_id'])
-    if user is None:
-        abort(404)
-    req['place_id'] == place_id
-    new_review = Review(**req)
-    storage.new(new_review)
-    storage.save()
-    return jsonify(new_review.to_dict()), 201
+    for i in storage.all("Place").values():
+        if i.id == place_id:
+            nrv = request.get_json(silent=True)
+            if nrv is None:
+                abort(400, 'Not a JSON')
+            if 'user_id' not in nrv.keys():
+                abort(400, 'Missing user_id')
+            if 'text' not in nrv.keys():
+                abort(400, 'Missing text')
+            tmp_list = []
+            for i in storage.all("User").values():
+                tmp_list.append(i.id)
+            for key, value in nrv.items():
+                if key == 'user_id':
+                    if value not in tmp_list:
+                        abort(404)
+            nrv["place_id"] = place_id
+            my_review = Review(**nrv)
+            storage.new(my_review)
+            storage.save()
+            return jsonify(my_review.to_dict()), 201
+    abort(404)
 
 
 @app_views.route('/reviews/<review_id>', strict_slashes=False, methods=['PUT'])
