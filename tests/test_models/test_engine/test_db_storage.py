@@ -89,17 +89,17 @@ class TestFileStorage(unittest.TestCase):
         """Test that save properly saves objects to file.json"""
 
 
-class TestDBStorageX(unittest.TestCase):
-    """ My class for testing dbstorage class """
+# class TestDBStorageX(unittest.TestCase):
+#     """ My class for testing dbstorage class """
 
-    def test_get(self):
-        """ tests get method on dbstorage """
-        self.assertTrue(storage.get(BaseModel, 1234) is None)
-        self.assertTrue(storage.get(None, 1234) is None)
-        self.assertTrue(storage.get(BaseModel, None) is None)
-        self.assertTrue(storage.get(None, None) is None)
+#     def test_get(self):
+#         """ tests get method on dbstorage """
+#         self.assertTrue(storage.get(BaseModel, 1234) is None)
+#         self.assertTrue(storage.get(None, 1234) is None)
+#         self.assertTrue(storage.get(BaseModel, None) is None)
+#         self.assertTrue(storage.get(None, None) is None)
 
-    def test_count(self):
-        """ tests count method on dbstorage """
-        self.assertGreaterEqual(storage.count(), 0)
-        self.assertGreaterEqual(storage.count('BaseModel'), 0)
+#     def test_count(self):
+#         """ tests count method on dbstorage """
+#         self.assertGreaterEqual(storage.count(), 0)
+#         self.assertGreaterEqual(storage.count('BaseModel'), 0)
